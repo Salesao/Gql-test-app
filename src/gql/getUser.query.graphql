@@ -1,0 +1,20 @@
+query getUser($id: ID!) {
+  retrieveUser(id: $id) {
+    __typename
+    ... on User {
+      id
+      name
+      sex
+      dateOfBirth
+      phone
+      email
+      address {
+        city
+      }
+      isFollowing
+    }
+    ... on BaseError {
+      status
+    }
+  }
+}

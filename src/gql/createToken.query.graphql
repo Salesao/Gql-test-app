@@ -1,0 +1,12 @@
+query auth ($login: String!, $password: String!) {
+  createTokens(login: $login, password: $password){
+    ...on TokenPair {
+      accessToken
+      refreshToken
+    }
+    ... on ErrorWithFields {
+      status
+      fields
+    }
+  }
+}
