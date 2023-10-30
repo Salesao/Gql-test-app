@@ -55,7 +55,6 @@ export const AuthLogIn: React.FC<IAuthLogIn> = () => {
 			if (dataAuth.data.createTokens.__typename === 'ErrorWithFields') {
 				throw dataAuth.data.createTokens;
 			}
-			console.log(dataAuth.data.createTokens.accessToken);
 			const dataDecode = await decode(
 				dataAuth.data.createTokens.accessToken,
 				'base64',

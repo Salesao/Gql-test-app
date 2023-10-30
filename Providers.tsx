@@ -11,13 +11,19 @@ import {
 	SafeAreaProvider,
 	initialWindowMetrics,
 } from 'react-native-safe-area-context';
-import theme from '#settings/themeNativeBase';
+import themeSettings from '#settings/themeNativeBase';
 import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '#api/settingsAPI';
+import { Platform } from 'react-native';
 
 interface IProviders {}
 
 const apolloClient = createApolloClient();
+
+const theme = Platform.select({
+	android: themeSettings,
+	ios: undefined,
+});
 
 export const Providers: React.FC<IProviders> = () => {
 	const navigationRef = useNavigationContainerRef();

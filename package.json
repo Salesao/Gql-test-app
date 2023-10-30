@@ -13,9 +13,12 @@
     "pretty": "npm run deleteNotUsedImports",
     "podInstall": "pod install --project-directory=ios",
     "podIArch": "arch -x86_64 pod install --project-directory=ios",
+    "firstInstallWindows": "npm i --legacy-peer-deps",
+    "firstInstallMac": "npm run firstInstallWindows && npm run podInstall",
+    "firstInstallMacM1": "npm run firstInstallWindows && npm run podIArch",
     "gen-graphql": "graphql-codegen --config codegen.ts",
     "build:android:adb": "cd android && ./gradlew bundleRelease && cd ..",
-		"build:android:apk": "cd android && ./gradlew assembleRelease && cd ..",
+    "build:android:apk": "cd android && ./gradlew assembleRelease && cd ..",
     "regenerateKeystore": "cd android && cd app && rm -rf App_GQL.keystore && cd .. && cd .. && keytool -genkey -v -keystore App_GQL.keystore -alias D42yCK#J1y -keyalg RSA -keysize 2048 -validity 10000 && mv App_GQL.keystore android/app"
   },
   "dependencies": {
@@ -35,7 +38,7 @@
     "react-native": "0.70.10",
     "react-native-dotenv": "^3.4.7",
     "react-native-pure-jwt": "^3.0.2",
-    "react-native-reanimated": "^2.13.0",
+    "react-native-reanimated": "^2.14.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.27.0",
     "react-native-svg": "^12.1.1"
