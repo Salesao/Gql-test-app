@@ -3,6 +3,7 @@ import { useDisclose } from 'native-base';
 import { createContext } from 'react';
 import { IInfoToast } from '#UI/BoxToast';
 import { User } from '#gql/generated/graphql';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IAuthContext {
 	authOptions: {
@@ -38,7 +39,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
 	const [userInfo, setUserInfo] =
 		useState<IAuthContext['user']['userInfo']>(null);
 
-	const handlerLogOut = () => {
+	const handlerLogOut = async () => {
+		await AsyncStorage.clear();
 		authOptions.onClose();
 		setUserInfo(null);
 	};

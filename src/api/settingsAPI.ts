@@ -1,13 +1,22 @@
-import { HttpLink } from '@apollo/client/link/http';
+import { createHttpLink } from '@apollo/client/link/http';
 import { onError } from '@apollo/client/link/error';
 import { BASE_API } from '@env';
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { getAccessTokenStorage } from '#settings/storage';
 
-export const createHttpLink = () => {
-	return new HttpLink({
-		uri: BASE_API,
-	});
-};
+const httpLink = createHttpLink({
+	uri: BASE_API,
+});
+
+const authLink = setContext(async () => {
+	const token = await getAccessTokenStorage();
+	return {
+		headers: {
+			Authorization: token ? `Bearer ${token}` : '',
+		},
+	};
+});
 
 export const errorLink = onError(
 	({ graphQLErrors, networkError, response, operation }) => {
@@ -29,9 +38,8 @@ export const errorLink = onError(
 export const localCache = new InMemoryCache();
 
 export const createApolloClient = () => {
-	const httpLink = createHttpLink();
 	const apolloClient = new ApolloClient({
-		link: ApolloLink.from([errorLink, httpLink]),
+		link: ApolloLink.from([authLink, errorLink, httpLink]),
 		connectToDevTools: false,
 		cache: localCache,
 		assumeImmutableResults: true,

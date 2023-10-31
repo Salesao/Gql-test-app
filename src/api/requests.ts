@@ -37,4 +37,25 @@ export const query = {
 			}
 		}
 	`,
+	getMe: gql`
+		query getUserMe {
+			getMe {
+				... on User {
+					id
+					name
+					sex
+					dateOfBirth
+					phone
+					email
+					address {
+						city
+					}
+					isFollowing
+				}
+				... on BaseError {
+					status
+				}
+			}
+		}
+	`,
 };
